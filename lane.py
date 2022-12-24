@@ -705,7 +705,7 @@ class Lane:
 def main():
 
   # Load a video
-  cap = cv2.VideoCapture(1)
+  cap = cv2.VideoCapture(0)
 
   # Create a VideoWriter object so we can save the video output
   fourcc = cv2.VideoWriter_fourcc(*'mp4v')
