@@ -1,33 +1,28 @@
 # THIS IS A TESTER FILE
 import Car
 import time
+from sshkeyboard import listen_keyboard
 
 car = Car()
-while True:
-    print("forward")
-    car.move()
-    time.sleep(2)
-    print("right")
-    car.turn(50)
-    time.sleep(2)
-    print("left")
-    car.turn(-50)
-    time.sleep(2)
-    print("full right")
-    car.turn(100)
-    time.sleep(2)
-    print("full left")
-    car.turn(-100)
-    time.sleep(2)
-    print("straight")
-    car.turn(0)
-    time.sleep(2)
-    print("brake")
-    car.brake()
-    time.sleep(2)
-    print("idle")
-    car.default()
-    time.sleep(2)
-    break
 
-car.end_car()
+def press(key):
+    if key == "up":
+        car.move()
+    elif key == "down":
+        car.brake()
+    elif key == "left":
+        car.turn(-100)
+    elif key == "right":
+        car.turn(100)
+    else:
+        car.turn(0)
+        car.default()
+
+car.default()
+listen_keyboard(on_press=press)
+
+while True:
+    try:
+        time.sleep(1)
+    except KeyboardInterrupt:
+        car.end_car()

@@ -46,7 +46,7 @@ class Car:
     
     def move(self):
         # RN will use a fixed speed, presumes esc_controls speed > idle
-        self.esc.ChangeDutyCycle(self.esc_controls["idle"]+1)
+        self.esc.ChangeDutyCycle(self.esc_controls["idle"]+0.5)
     
     def brake(self):
         # assumes reverse is brake
