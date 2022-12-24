@@ -26,4 +26,37 @@ class Car:
         GPIO.setup(self.servo_pin, GPIO.OUT)
 
         return GPIO.PWM(self.esc_pin, self.frequency), GPIO.PWM(self.servo_pin, self.frequency)
+
+    def turn(self, amt):
+        # -100 <-> 0 <-> +100 
+        # %of turning radius 
+        # L <-> S <-> R
+        # Function presumes that servo_controls R < S < L
+        if abs(amt) > 100:
+            return False 
+
+        if amt == 0:
+            self.servo.ChangeDutyCycle(self.servo_controls["straight"])
+        elif amt < 0:
+            self.servo.ChangeDutyCycle(((abs(amt)/100) * (self.servo_controls["left"]-self.servo_controls["straight"]))+self.servo_controls["straight"])
+        elif amt > 0:
+            self.servo.ChangeDutyCycle(self.servo_controls["straight"] - ((abs(amt)/100) * (self.servo_controls["straight"]) - self.servo_controls["right"]))
+        
+        return True
+    
+    def move(self):
+        # RN will use a fixed speed, presumes esc_controls speed > idle
+        self.esc.ChangeDutyCycle(self.esc_controls["idle"]+1)
+    
+    def brake(self):
+        # assumes reverse is brake
+        self.esc.ChangeDutyCycle(self.esc_controls["reverse"])
+    
+    def default(self):
+        self.esc.ChangeDutyCycle(self.esc_controls["idle"])
+    
+    def end_car(self):
+        self.esc.stop()
+        self.servo.stop()
+        GPIO.cleanup()
     
