@@ -14,6 +14,8 @@ def press(key):
         car.turn(-100)
     elif key == "right":
         car.turn(100)
+    elif key == "space":
+        car.idle()
     else:
         car.turn(0)
         car.default()

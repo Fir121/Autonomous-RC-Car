@@ -53,6 +53,9 @@ class Car:
         self.esc.ChangeDutyCycle(self.esc_controls["reverse"])
     
     def default(self):
+        self.esc.ChangeDutyCycle(0)
+    
+    def idle(self):
         self.esc.ChangeDutyCycle(self.esc_controls["idle"])
     
     def end_car(self):
