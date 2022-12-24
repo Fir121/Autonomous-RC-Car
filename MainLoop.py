@@ -3,7 +3,7 @@ import Car
 import time
 from sshkeyboard import listen_keyboard
 
-car = Car()
+car = Car.Car()
 
 def press(key):
     if key == "up":
