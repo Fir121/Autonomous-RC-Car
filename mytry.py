@@ -4,6 +4,7 @@ from backend import *
 import time
 
 
+'''
 cap = cv2.VideoCapture(1)
 while True:
     success,img = cap.read()
@@ -18,11 +19,14 @@ while True:
     cv2.waitKey(1)
 '''
 
-image = cv2.imread('asd.jpg')
+image = cv2.imread('asd2.jpg')
 cv2.namedWindow('image')
+print(image.shape)
 outp = bw_conv(image)
 outp2 = warp_img(image)
 outp3 = bw_conv(outp2)
+outp4 = crop(outp3)
+outp5 = draw(outp4)
 todo = process_direction(outp3)
 print(todo)
 while True:
@@ -30,9 +34,9 @@ while True:
     cv2.imshow('image',outp)
     cv2.imshow('wrped',outp2)
     cv2.imshow('wrpedbw',outp3)
+    cv2.imshow('cropwrpedbw',outp4)
+    cv2.imshow('draw',outp5)
 
     cv2.waitKey(1)
 
 cv2.destroyAllWindows()
-
-'''
