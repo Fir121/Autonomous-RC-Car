@@ -3,12 +3,18 @@ import numpy as np
 from backend import *
 import time
 
-'''
+
 cap = cv2.VideoCapture(1)
 while True:
     success,img = cap.read()
     cv2.imshow("mainvid",img)
-    bw_conv(img)
+    outp = bw_conv(img)
+    outp2 = warp_img(img)
+    outp3 = bw_conv(outp2)
+    cv2.imshow('wrped',outp2)
+    cv2.imshow('wrpedbw',outp3)
+    todo = process_direction(outp3)
+    print(todo)
     cv2.waitKey(1)
 '''
 
@@ -28,3 +34,5 @@ while True:
     cv2.waitKey(1)
 
 cv2.destroyAllWindows()
+
+'''

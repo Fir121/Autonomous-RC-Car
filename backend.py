@@ -13,7 +13,7 @@ def bw_conv(frame):
 
 def warp_img(frame):
     h,w,c = frame.shape
-    points = [[w//6,0], [w-(w//6),0], [0,h], [w,h]]
+    points = [[0,0], [w,0], [0,h], [w,h]]
     pts1 = np.float32(points)
     pts2 = np.float32([[0,0], [w,0], [0,h], [w,h]])
     matrix = cv2.getPerspectiveTransform(pts1,pts2)
