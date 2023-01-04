@@ -25,7 +25,8 @@ def process_direction(frame):
     return "NA"
 
 def crop(img):
-    return img[500:720, 0:1280]
+    print(img.shape)
+    return img[0:500, 0:720]
 
 def draw(img2):
     img = img2.copy()
@@ -34,15 +35,13 @@ def draw(img2):
     cnt_arr = []
     for cnt in contours:
         x1,y1 = cnt[0][0]
-        approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
-        
-        if len(approx) == 4:
-            x, y, w, h = cv2.boundingRect(cnt)
-            ratio= float(w)/h
-            if ratio>=0.7 and ratio<=1.3:
-                cnt_arr.append((x,y,w,h))
-                img = cv2.drawContours(img, [cnt], -1, (255, 255, 0), 3)
-                cv2.putText(img, 'Bounds', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
+
+        rect = cv2.minAreaRect(cnt)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        cnt_arr.append(box)
+        cv2.drawContours(img,[box],0,(255,255,255),2)
+        cv2.putText(img, 'Bounds', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
 
     calc_off_center(cnt_arr)
     return img
@@ -50,6 +49,7 @@ def draw(img2):
 def calc_off_center(ar):
     if len(ar) == 0:
         return None
+        
     x_max = ar[0]
     for x in ar:
         if x[1] > x_max[1]:

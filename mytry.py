@@ -6,20 +6,26 @@ import time
 
 '''
 cap = cv2.VideoCapture(1)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 while True:
     success,img = cap.read()
     cv2.imshow("mainvid",img)
     outp = bw_conv(img)
     outp2 = warp_img(img)
     outp3 = bw_conv(outp2)
+    outp4 = crop(outp3)
+    outp5 = draw(outp4)
+    todo = process_direction(outp3)
     cv2.imshow('wrped',outp2)
     cv2.imshow('wrpedbw',outp3)
-    todo = process_direction(outp3)
+    cv2.imshow('cropwrpedbw',outp4)
+    cv2.imshow('draw',outp5)
     print(todo)
     cv2.waitKey(1)
 '''
 
-image = cv2.imread('asd2.jpg')
+image = cv2.imread('asd3.jpg')
 cv2.namedWindow('image')
 print(image.shape)
 outp = bw_conv(image)
