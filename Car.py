@@ -39,6 +39,9 @@ class Car:
         if abs(amt) > 100:
             return False 
 
+        if amt == self.status["servo"]:
+            return True
+
         if amt == 0:
             self.servo.ChangeDutyCycle(self.servo_controls["straight"])
         elif amt < 0:
@@ -52,19 +55,27 @@ class Car:
     
     def move(self):
         # RN will use a fixed speed, presumes esc_controls speed > idle
+        if self.status["esc"] == 1:
+            return
         self.esc.ChangeDutyCycle(self.esc_controls["idle"]+0.5)
         self.status["esc"] = 1
     
     def brake(self):
         # assumes reverse is brake
+        if self.status["esc"] == -1:
+            return
         self.esc.ChangeDutyCycle(self.esc_controls["reverse"])
         self.status["esc"] = -1
     
     def default(self):
+        if self.status["esc"] is None:
+            return
         self.esc.ChangeDutyCycle(0)
         self.status["esc"] = None
     
     def idle(self):
+        if self.status["esc"] == 0:
+            return
         self.esc.ChangeDutyCycle(self.esc_controls["idle"])
         self.status["esc"] = 0
     
@@ -83,7 +94,11 @@ class Car:
             else:
                 self.brake()
         
-        self.turn(control/(cam_width//2)*100)
+        if control < 1*0.5*0.05*cam_width and control > -1*0.5*0.05*cam_width:
+            self.turn(0)
+        else:
+            self.turn(control/(cam_width//2)*100)
+            
         self.move()
         
     
