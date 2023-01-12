@@ -1,5 +1,6 @@
 import cv2 
-import numpy as np 
+import numpy as np
+from constants import *
 
 def bw_conv(frame):
     imgHsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -22,12 +23,9 @@ def warp_img(frame):
 
     return imgWarp
 
-def process_direction(frame):
-    return "NA"
-
 def crop(img):
     print(img.shape)
-    return img[0:700, 0:1280]
+    return img[0:cam_height-20, 0:cam_width]
 
 def draw(img2):
     img = img2.copy()
@@ -47,8 +45,8 @@ def draw(img2):
         cv2.drawContours(img,[box],0,(255,255,255),2)
         cv2.putText(img, f'Bounds {i}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
 
-    calc_off_center(cnt_arr)
-    return img
+    
+    return img,calc_off_center(cnt_arr)
 
 def calc_off_center(ar):
     if len(ar) == 0:
@@ -59,10 +57,9 @@ def calc_off_center(ar):
         if x[0][1] > x_max[0][1]:
             x_max = x
     
-    center = 1280//2
+    center = cam_width//2
     rect_center = x_max[0][1]
 
     skew = -1*(center-rect_center) #left negative, right positive, 0 PERFECT
 
-    print("OC By", skew)
-    
+    return skew

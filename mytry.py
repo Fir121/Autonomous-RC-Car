@@ -2,12 +2,14 @@ import cv2
 import numpy as np 
 from backend import *
 import time
+from Car import Car
+from constants import *
 
 
-'''
 cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, cam_width)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cam_height)
+car = Car()
 while True:
     success,img = cap.read()
     cv2.imshow("mainvid",img)
@@ -15,14 +17,18 @@ while True:
     outp2 = warp_img(img)
     outp3 = bw_conv(outp2)
     outp4 = crop(outp3)
-    outp5 = draw(outp4)
-    todo = process_direction(outp3)
+    outp5,carc = draw(outp4)
     cv2.imshow('wrped',outp2)
     cv2.imshow('wrpedbw',outp3)
     cv2.imshow('cropwrpedbw',outp4)
     cv2.imshow('draw',outp5)
-    print(todo)
+    try:
+        car.interpret(carc)
+    except Exception as e:
+        print(e)
     cv2.waitKey(1)
+
+
 '''
 
 image = cv2.imread('a1.jpg')
@@ -33,8 +39,6 @@ outp2 = warp_img(image)
 outp3 = bw_conv(outp2)
 outp4 = crop(outp3)
 outp5 = draw(outp4)
-todo = process_direction(outp3)
-print(todo)
 while True:
     time.sleep(0.00001)
     cv2.imshow('image',outp)
@@ -46,3 +50,4 @@ while True:
     cv2.waitKey(1)
 
 cv2.destroyAllWindows()
+'''

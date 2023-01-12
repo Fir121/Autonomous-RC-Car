@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from constants import *
 
 GPIO.setmode(GPIO.BCM)
 
@@ -16,6 +17,9 @@ class Car:
 
         # Instantiates GPIO Pins to output a PWM signal
         self.esc, self.servo = self.__setup()
+
+        # Keeps a dict of current car status
+        self.status = {"esc":0, "servo":0}
 
         # Starts outputting a PWM signal
         self.esc.start(esc_controls["idle"])
@@ -42,24 +46,44 @@ class Car:
         elif amt > 0:
             self.servo.ChangeDutyCycle(self.servo_controls["straight"] - ((abs(amt)/100) * (self.servo_controls["straight"]) - self.servo_controls["right"]))
         
+        self.status["servo"] = amt
+
         return True
     
     def move(self):
         # RN will use a fixed speed, presumes esc_controls speed > idle
         self.esc.ChangeDutyCycle(self.esc_controls["idle"]+0.5)
+        self.status["esc"] = 1
     
     def brake(self):
         # assumes reverse is brake
         self.esc.ChangeDutyCycle(self.esc_controls["reverse"])
+        self.status["esc"] = -1
     
     def default(self):
         self.esc.ChangeDutyCycle(0)
+        self.status["esc"] = None
     
     def idle(self):
         self.esc.ChangeDutyCycle(self.esc_controls["idle"])
+        self.status["esc"] = 0
     
     def end_car(self):
         self.esc.stop()
         self.servo.stop()
         GPIO.cleanup()
+        self.status = None
+
+    def interpret(self, control):
+        if control is None:
+            if self.status["esc"] == 0 or self.status["esc"] is None:
+                pass
+            elif self.status["esc"] == -1:
+                self.default()
+            else:
+                self.brake()
+        
+        self.turn(control/(cam_width//2)*100)
+        self.move()
+        
     
