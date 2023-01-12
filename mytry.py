@@ -25,7 +25,7 @@ while True:
     cv2.waitKey(1)
 '''
 
-image = cv2.imread('asd3.jpg')
+image = cv2.imread('a1.jpg')
 cv2.namedWindow('image')
 print(image.shape)
 outp = bw_conv(image)
