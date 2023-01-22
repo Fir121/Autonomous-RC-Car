@@ -2,14 +2,20 @@ import cv2
 import numpy as np 
 from backend import *
 import time
-from Car import Car
+try:
+    from Car import Car
+except:
+    pass
 from constants import *
 
 
 cap = cv2.VideoCapture(1)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, cam_width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cam_height)
-car = Car()
+try:
+    car = Car()
+except:
+    pass
 while True:
     success,img = cap.read()
     cv2.imshow("mainvid",img)

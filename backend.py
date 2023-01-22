@@ -24,8 +24,7 @@ def warp_img(frame):
     return imgWarp
 
 def crop(img):
-    print(img.shape)
-    return img[0:cam_height-20, 0:cam_width]
+    return img[0:cam_height-40, 0:cam_width]
 
 def draw(img2):
     img = img2.copy()
@@ -40,13 +39,17 @@ def draw(img2):
         rect = cv2.minAreaRect(cnt)
         box = cv2.boxPoints(rect)
         box = np.int0(box)
-        cnt_arr.append(box)
-        print(box,i)
-        cv2.drawContours(img,[box],0,(255,255,255),2)
-        cv2.putText(img, f'Bounds {i}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
+        if val_area(box):
+            cnt_arr.append(box)
+            cv2.drawContours(img,[box],0,(255,255,255),2)
+            cv2.putText(img, f'Bounds {i}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
 
     
     return img,calc_off_center(cnt_arr)
+
+def val_area(box):
+    return True
+
 
 def calc_off_center(ar):
     if len(ar) == 0:
