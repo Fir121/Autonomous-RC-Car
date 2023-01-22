@@ -21,6 +21,7 @@ def press(key):
         car.default()
 
 car.default()
+car.idle()
 listen_keyboard(on_press=press)
 
 while True:

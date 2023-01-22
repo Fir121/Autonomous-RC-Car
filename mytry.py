@@ -44,7 +44,7 @@ outp = bw_conv(image)
 outp2 = warp_img(image)
 outp3 = bw_conv(outp2)
 outp4 = crop(outp3)
-outp5 = draw(outp4)
+outp5,x = draw(outp4)
 while True:
     time.sleep(0.00001)
     cv2.imshow('image',outp)
@@ -52,6 +52,7 @@ while True:
     cv2.imshow('wrpedbw',outp3)
     cv2.imshow('cropwrpedbw',outp4)
     cv2.imshow('draw',outp5)
+    print(x)
 
     cv2.waitKey(1)
 

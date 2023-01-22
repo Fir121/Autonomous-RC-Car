@@ -1,6 +1,7 @@
 import cv2 
 import numpy as np
 from constants import *
+import math
 
 def bw_conv(frame):
     imgHsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -48,7 +49,13 @@ def draw(img2):
     return img,calc_off_center(cnt_arr)
 
 def val_area(box):
-    return True
+    l = math.dist(box[0],box[1])
+    b = math.dist(box[0],box[3])
+    print(l*b)
+    if l*b > 2000 and l*b < 7000:
+        return True
+    
+    return False
 
 
 def calc_off_center(ar):
