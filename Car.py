@@ -93,6 +93,8 @@ class Car:
                 self.default()
             else:
                 self.brake()
+            
+            return
         
         if control < 1*0.5*0.05*cam_width and control > -1*0.5*0.05*cam_width:
             self.turn(0)

@@ -7,7 +7,7 @@ def bw_conv(frame):
     imgHsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     kernel_size = 5
     imgHsv = cv2.GaussianBlur(imgHsv, (kernel_size, kernel_size), 0)
-    sensitivity = 15
+    sensitivity = 45
     lowerWhite = np.array([0,0,255-sensitivity])
     upperWhite = np.array([255,sensitivity,255])
     maskWhite = cv2.inRange(imgHsv, lowerWhite, upperWhite)
@@ -34,13 +34,14 @@ def draw(img2):
     cnt_arr = []
     i=0
     for cnt in contours:
-        i+=1
+        
         x1,y1 = cnt[0][0]
 
         rect = cv2.minAreaRect(cnt)
         box = cv2.boxPoints(rect)
         box = np.int0(box)
         if val_area(box):
+            i+=1
             cnt_arr.append(box)
             cv2.drawContours(img,[box],0,(255,255,255),2)
             cv2.putText(img, f'Bounds {i}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
@@ -51,8 +52,7 @@ def draw(img2):
 def val_area(box):
     l = math.dist(box[0],box[1])
     b = math.dist(box[0],box[3])
-    print(l*b)
-    if l*b > 2000 and l*b < 7000:
+    if l*b > 2000 and l*b < 20000:
         return True
     
     return False
@@ -64,11 +64,11 @@ def calc_off_center(ar):
         
     x_max = ar[0]
     for x in ar:
-        if x[0][1] > x_max[0][1]:
+        if x[0][1] < x_max[0][1]:
             x_max = x
     
     center = cam_width//2
-    rect_center = x_max[0][1]
+    rect_center = x_max[0][0]
 
     skew = -1*(center-rect_center) #left negative, right positive, 0 PERFECT
 
