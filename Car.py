@@ -96,7 +96,7 @@ class Car:
             
             return
         
-        if control < 1*0.5*0.05*cam_width and control > -1*0.5*0.05*cam_width:
+        if control < 1*0.5*0.1*cam_width and control > -1*0.5*0.1*cam_width:
             self.turn(0)
         else:
             self.turn(control/(cam_width//2)*100)

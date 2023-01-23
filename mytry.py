@@ -42,19 +42,15 @@ while True:
 
 '''
 
-image = cv2.imread('a3.jpg')
+image = cv2.imread('a99.jpg')
 cv2.namedWindow('image')
 print(image.shape)
-outp = bw_conv(image)
-outp2 = warp_img(image)
-outp3 = bw_conv(outp2)
+outp3 = bw_conv(image)
 outp4 = crop(outp3)
 outp5,x = draw(outp4)
 print(x)
 while True:
     time.sleep(0.00001)
-    cv2.imshow('image',outp)
-    cv2.imshow('wrped',outp2)
     cv2.imshow('wrpedbw',outp3)
     cv2.imshow('cropwrpedbw',outp4)
     cv2.imshow('draw',outp5)

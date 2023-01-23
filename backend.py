@@ -7,7 +7,7 @@ def bw_conv(frame):
     imgHsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     kernel_size = 5
     imgHsv = cv2.GaussianBlur(imgHsv, (kernel_size, kernel_size), 0)
-    sensitivity = 45
+    sensitivity = 40
     lowerWhite = np.array([0,0,255-sensitivity])
     upperWhite = np.array([255,sensitivity,255])
     maskWhite = cv2.inRange(imgHsv, lowerWhite, upperWhite)
@@ -52,7 +52,7 @@ def draw(img2):
 def val_area(box):
     l = math.dist(box[0],box[1])
     b = math.dist(box[0],box[3])
-    if l*b > 2000 and l*b < 20000:
+    if l*b > 2000 and l*b < 25000:
         return True
     
     return False
@@ -72,4 +72,4 @@ def calc_off_center(ar):
 
     skew = -1*(center-rect_center) #left negative, right positive, 0 PERFECT
 
-    return skew
+    return skew//2
