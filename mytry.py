@@ -42,7 +42,7 @@ while True:
 
 '''
 
-image = cv2.imread('a99.jpg')
+image = cv2.imread('a44.jpg')
 cv2.namedWindow('image')
 print(image.shape)
 outp3 = bw_conv(image)
