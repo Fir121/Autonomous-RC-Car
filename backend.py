@@ -7,7 +7,7 @@ def bw_conv(frame):
     imgHsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     kernel_size = 5
     imgHsv = cv2.GaussianBlur(imgHsv, (kernel_size, kernel_size), 0)
-    sensitivity = 20
+    sensitivity = threshold
     lowerWhite = np.array([0,0,255-sensitivity])
     upperWhite = np.array([255,sensitivity,255])
     maskWhite = cv2.inRange(imgHsv, lowerWhite, upperWhite)
@@ -52,7 +52,7 @@ def draw(img2):
 def val_area(box):
     l = math.dist(box[0],box[1])
     b = math.dist(box[0],box[3])
-    if l*b > 10000 and l*b < 50000:
+    if l*b > white_size_lower and l*b < white_size_upper:
         return True
     
     return False

@@ -45,9 +45,9 @@ class Car:
         if amt == 0:
             self.servo.ChangeDutyCycle(self.servo_controls["straight"])
         elif amt < 0:
-            self.servo.ChangeDutyCycle(((abs(amt)/100) * (self.servo_controls["left"]-self.servo_controls["straight"]))+self.servo_controls["straight"])
+            self.servo.ChangeDutyCycle(self.servo_controls["straight"]+((self.servo_controls["left"]-self.servo_controls["straight"])*(abs(amt)/100)))
         elif amt > 0:
-            self.servo.ChangeDutyCycle(self.servo_controls["straight"] - ((abs(amt)/100) * (self.servo_controls["straight"]) - self.servo_controls["right"]))
+            self.servo.ChangeDutyCycle(self.servo_controls["straight"]-((self.servo_controls["straight"]-self.servo_controls["right"])*(amt/100)))
         
         self.status["servo"] = amt
 
@@ -57,7 +57,7 @@ class Car:
         # RN will use a fixed speed, presumes esc_controls speed > idle
         if self.status["esc"] == 1:
             return
-        self.esc.ChangeDutyCycle(self.esc_controls["idle"]+0.5)
+        self.esc.ChangeDutyCycle(self.esc_controls["idle"]+0.5)  
         self.status["esc"] = 1
     
     def brake(self):

@@ -4,8 +4,20 @@ except:
     pass
 import math
 import time
+import cv2
+from backend import *
+import time
+from picamera2 import Picamera2
+try:
+    from Car import Car
+except:
+    pass
 from constants import *
+
 # USE MYTRY.PY TO ADJUST YOURSELF WITHIN THE LANE, HAVE PARAMETERS TO BE TWEAKED FOR MAIN TRACK. LATER MAKE PARAMS CENTRAL AND DUALS
+map_radius = 1.3 #m
+max_steer = 40 #deg
+W = 0.2 #m
 
 try:
     car = Car()
@@ -15,8 +27,21 @@ except:
 car.turn((math.degrees(math.atan(W/map_radius))/max_steer)*100)
 car.move()
 
+picam2 = Picamera2()
+camera_config = picam2.create_still_configuration(main={"size": (cam_width, cam_height)})
+picam2.configure(camera_config)
+picam2.start()
+i = 0
 while True:
-    time.sleep(0.2)
+    img = picam2.capture_array()
+    img = cv2.rotate(img, cv2.ROTATE_180)
+    outp3 = bw_conv(img)
+    outp4 = crop(outp3)
+    carc = draw(outp4)
+    cv2.imwrite(f"outputimages/{i}-Base.jpg", img)
+    i+=1
+    cv2.waitKey(1)
+
 
 '''
 # OTHER PATH DEPENDING ON TRAFFIC SIGNAL RECOGNITION
