@@ -1,0 +1,11 @@
+0m 7.06
++20frames
+0.8m 8.02
++18frames
+1.6m 8.2
++16frames
+2.4m 9.12
+
+2.4m in 2.25seconds
+
+1.067m/s speed = 3.8412 km/h
