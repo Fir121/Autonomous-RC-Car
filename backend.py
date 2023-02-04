@@ -52,6 +52,7 @@ def draw(img2):
 def val_area(box):
     l = math.dist(box[0],box[1])
     b = math.dist(box[0],box[3])
+    print(l*b)
     if l*b > white_size_lower and l*b < white_size_upper:
         return True
     

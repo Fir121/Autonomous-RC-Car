@@ -42,17 +42,15 @@ while True:
 
 '''
 
-image = cv2.imread('a44.jpg')
+image = cv2.imread('a88.jpg')
 cv2.namedWindow('image')
 print(image.shape)
 outp3 = bw_conv(image)
-outp4 = crop(outp3)
-outp5,x = draw(outp4)
+outp5,x = draw(outp3)
 print(x)
 while True:
     time.sleep(0.00001)
     cv2.imshow('wrpedbw',outp3)
-    cv2.imshow('cropwrpedbw',outp4)
     cv2.imshow('draw',outp5)
 
     cv2.waitKey(1)

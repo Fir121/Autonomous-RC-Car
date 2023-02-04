@@ -1,0 +1,4 @@
+lane 10x40cm
+cones 32cm
+
+takes around 20% in left turn
