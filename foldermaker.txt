@@ -1,6 +1,0 @@
-import os
-st = time.time()
-os.makedirs(f"outputimages/{st}")
-
-cv2.imwrite(f"outputimages/{st}/{i}-Base.jpg", img)
-cv2.imwrite(f"outputimages/{st}/Processed{i}-{carc[1]}.jpg", carc[0])

@@ -1,6 +1,0 @@
-WheelDist = 19 ~20cm 0.2m
-MaxTurn = 40 Deg
-
-minturn possible 22 cm radius inner
-
-11 fps approx

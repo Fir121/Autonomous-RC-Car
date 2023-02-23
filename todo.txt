@@ -1,3 +1,0 @@
-make pwm stable check hardware pwm https://raspberrypi.stackexchange.com/questions/91121/pwm-and-output-voltages-at-higher-frequencies
-
-make a ./ with pigpiod daemon start
