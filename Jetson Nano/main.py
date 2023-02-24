@@ -1,4 +1,4 @@
-from picamera2 import Picamera2
+import nanocamera as nano
 from Car import Car
 from constants import *
 from detection import *
@@ -6,10 +6,9 @@ import os
 import time
 from PIL import Image
 
-picam2 = Picamera2()
-camera_config = picam2.create_still_configuration(main={"size": (cam_width, cam_height)})
-picam2.configure(camera_config)
-picam2.start()
+picam2 = nano.Camera(width=cam_width, height=cam_height)
+if picam2.isReady():
+    print("Cam ready")
 car = Car()
 car.default()
 car.idle()
@@ -22,7 +21,7 @@ if logging:
 i = 0
 while True:
     try:
-        img = picam2.capture_array()
+        img = picam2.read()
         res = process(img)
         car.interpret(res)
         if logging:
