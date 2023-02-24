@@ -4,8 +4,6 @@ import ultrasonic
 from serial_communicator import *
 import shape_operations
 
-pi = pigpio.pi()
-
 class Car:
     def __init__(self):
         self.send = SerialCommunicator()
