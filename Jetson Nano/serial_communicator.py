@@ -12,7 +12,7 @@ class SerialCommunicator:
             raise TimeoutError
     
     def sender(self, msg):
-        self.serial_conn.write(msg+"\n")
+        self.serial_conn.write((msg+"\n").encode())
     
     def receive(self): # blocking statment
         val = self.serial_conn.readline()         

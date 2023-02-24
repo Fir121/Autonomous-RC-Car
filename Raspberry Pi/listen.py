@@ -2,7 +2,9 @@ from Car import Car
 import serial
 from serial_communicator import *
 
+print("Opening communique")
 ser = SerialCommunicator()
+print("starting car")
 car = Car()
 while True:
     time.sleep(0.00001)
