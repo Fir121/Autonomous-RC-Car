@@ -3,10 +3,15 @@ import math
 import ultrasonic
 from serial_communicator import *
 import shape_operations
+import numpy as np
 
 class Car:
     def __init__(self):
         self.send = SerialCommunicator()
+    
+    def readImg(self):
+        data = self.send.receive()
+        return np.fromstring(data, dtype=int)
 
     def turn(self, amt):
         self.send.sender("servo:"+str(amt))

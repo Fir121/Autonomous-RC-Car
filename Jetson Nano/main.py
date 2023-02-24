@@ -1,4 +1,3 @@
-import nanocamera as nano
 from Car import Car
 from constants import *
 print("Importing detection")
@@ -8,9 +7,6 @@ import os
 import time
 from PIL import Image
 
-picam2 = nano.Camera(width=cam_width, height=cam_height)
-if picam2.isReady():
-    print("Cam ready")
 print("Starting car")
 car = Car()
 car.default()
@@ -24,10 +20,13 @@ if logging:
 i = 0
 while True:
     try:
-        img = picam2.read()
-        res = process(img)
-        car.interpret(res)
-        if logging:
+        try:
+            img = car.readImg()
+            res = process(img)
+            car.interpret(res)
+        except Exception as e:
+            print(e)
+        if logging and img is not None:
             im = Image.fromarray(img)
             im.save(os.path.join(dir_, f"{i}.jpeg"))
             with open(tfile,"a+") as f:
