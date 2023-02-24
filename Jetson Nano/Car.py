@@ -1,4 +1,3 @@
-import pigpio
 from constants import *
 import math
 import ultrasonic
