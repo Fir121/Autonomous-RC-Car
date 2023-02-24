@@ -5,7 +5,7 @@ GPIO.setwarnings(False)
 
 def ultrasonic(GPIO_TRIGGER, GPIO_ECHO):
     #GPIO Mode (BOARD / BCM)
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
     
     #set GPIO direction (IN / OUT)
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
