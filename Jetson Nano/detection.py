@@ -33,12 +33,14 @@ def get_coords(detections):
         # ID list is in label_map.pbtxt
         # loop assumes only one unoriented lane and only one object detected at a time
         # single object assumption can be dangerous... but no other possible solution in sight
+        # should probaby select the object with the lower y value
 
         if class_id == 3 and scores[i] > lane_thresh:
             if boxes[i][2]-boxes[i][0] < boxes[i][3]-boxes[i][1]:
                 unoriented_lane = {
                         "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                         "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
+                        "box":boxes[i],
                         "class_name": category_index[class_id]["name"],
                         "score": scores[i]
                     }
@@ -50,6 +52,7 @@ def get_coords(detections):
             object_ = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                     "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
+                    "box":boxes[i],
                     "class_name": category_index[class_id]["name"],
                     "score": scores[i]
                 }
@@ -58,6 +61,7 @@ def get_coords(detections):
             object_ = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                     "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
+                    "box":boxes[i],
                     "class_name": category_index[class_id]["name"],
                     "score": scores[i]
                 }
