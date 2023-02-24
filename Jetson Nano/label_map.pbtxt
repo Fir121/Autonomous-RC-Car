@@ -5,7 +5,7 @@ item {
 
 item {
     id: 2
-    name: 'Cone'
+    name: 'SpeedBump'
 }
 
 item {
@@ -15,5 +15,25 @@ item {
 
 item {
     id: 4
+    name: 'Traffic_S'
+}
+
+item {
+    id: 5
+    name: 'Traffic_X'
+}
+
+item {
+    id: 6
     name: 'Zebra'
+}
+
+item {
+    id: 7
+    name: 'Traffic_L'
+}
+
+item {
+    id: 8
+    name: 'Cone'
 }

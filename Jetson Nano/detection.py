@@ -9,6 +9,9 @@ import os
 cone_thresh = 0.85
 box_thresh = 0.7
 lane_thresh = 0.95
+bump_thresh = 0.8
+signal_thresh = 0.7
+zebra_thresh = 0.75
 
 
 PATH_TO_SAVED_MODEL = os.path.join(os.getcwd(), "inference_graph","saved_model")
@@ -27,6 +30,9 @@ def get_coords(detections):
     lane_count = 0
     unoriented_lane = None
     object_ = None
+    speedbump = None
+    signal = None
+    zebra = None
 
     for i in range(min(max_boxes_to_draw, boxes.shape[0])):
         class_id = int(detections['detection_classes'][i])
@@ -48,7 +54,7 @@ def get_coords(detections):
                 lane_centers += 1-(boxes[i][3]+boxes[i][1])/2
                 lane_count += 1
 
-        elif class_id == 2 and scores[i] > cone_thresh:
+        elif class_id == 8 and scores[i] > cone_thresh:
             object_ = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                     "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
@@ -65,11 +71,31 @@ def get_coords(detections):
                     "class_name": category_index[class_id]["name"],
                     "score": scores[i]
                 }
+        
+        elif class_id == 2 and scores[i] > bump_thresh:
+            speedbump = {
+                    "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
+                    "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
+                    "box":boxes[i],
+                    "class_name": category_index[class_id]["name"],
+                    "score": scores[i]
+                }
+        elif (class_id == 4 or class_id == 5 or class_id == 7) and scores[i] > signal_thresh:
+            signal = category_index[class_id]["name"]
+        elif class_id == 6 and scores[i] > zebra_thresh:
+            zebra = {
+                    "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
+                    "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
+                    "box":boxes[i],
+                    "class_name": category_index[class_id]["name"],
+                    "score": scores[i]
+                }
+            
 
     if lane_count == 0:
-        return object_, None, unoriented_lane
+        return object_, None, unoriented_lane, speedbump, signal, zebra
     lane_disp = lane_centers/lane_count
-    return object_, lane_disp, unoriented_lane
+    return object_, lane_disp, unoriented_lane, speedbump, signal, zebra
 
 def process(image_np):
     # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
