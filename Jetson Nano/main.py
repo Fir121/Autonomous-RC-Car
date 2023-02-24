@@ -1,7 +1,9 @@
 import nanocamera as nano
 from Car import Car
 from constants import *
+print("Importing detection")
 from detection import *
+print("Imported detection")
 import os
 import time
 from PIL import Image
@@ -9,6 +11,7 @@ from PIL import Image
 picam2 = nano.Camera(width=cam_width, height=cam_height)
 if picam2.isReady():
     print("Cam ready")
+print("Starting car")
 car = Car()
 car.default()
 car.idle()
