@@ -3,11 +3,10 @@ import time
 
 class SerialCommunicator:
     def __init__(self):
-        self.serial_conn = serial.Serial("/dev/ttyTHS1",9600)
+        self.serial_conn = serial.Serial("/dev/ttyS0",9600)
         time.sleep(2)
-        self.sender("INITCONN")
-        if self.receive() == "DONE":
-            return
+        if self.receive() == "INITCONN":
+            self.sender("DONE")
         else:
             raise TimeoutError
     
