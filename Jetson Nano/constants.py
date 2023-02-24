@@ -11,12 +11,12 @@ cam_width = 640
 cam_height = 480
 max_steer = 40 #deg
 W = 0.2 #m
-TRIG_CENTER = 27
+TRIG_CENTER = 21
 ECHO_CENTER = 22
-TRIG_RIGHT = 10
-ECHO_RIGHT = 9
-TRIG_LEFT = 20
-ECHO_LEFT = 21
+TRIG_RIGHT = 23
+ECHO_RIGHT = 24
+TRIG_LEFT = 15
+ECHO_LEFT = 16
 
 
 
