@@ -9,22 +9,23 @@ ssh.connect('172.20.10.5', username="firas", password="firas")
 sftp = ssh.open_sftp()
 print("connected")
 
-remotepath = '/home/firas/cur/Autonomous-RC-Car/Raspberry Pi'
+remotepath = '/home/firas/Desktop/Autonomous-RC-Car/Raspberry Pi'
 i = 0
 t = time.time()
 os.makedirs(f"outputimages/{t}")
 while True:
+    print(i)
     while True:
         try:
-            sftp.stat(remotepath)
+            sftp.stat(remotepath+"/test.jpg")
             break
         except Exception as e:
             time.sleep(0.00001)
     localpath = f'outputimages/{t}/{i}-Base.jpg'
     i += 1
-    sftp.get(remotepath, localpath)
+    sftp.get(remotepath+"/test.jpg", localpath)
     op = process(localpath)
     with open("op.txt", "w") as f:
         f.write(str(op))
-    sftp.remove(remotepath)
-    sftp.put("op.txt", os.path.join(remotepath,"op.txt"), confirm=False)
+    sftp.remove(remotepath+"/test.jpg")
+    sftp.put("op.txt", remotepath+"/op.txt", confirm=False)

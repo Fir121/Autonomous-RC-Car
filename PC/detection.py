@@ -4,6 +4,7 @@ import warnings
 warnings.filterwarnings('ignore')
 from object_detection.utils import label_map_util
 import os
+from PIL import Image
 
 
 cone_thresh = 0.85
@@ -97,7 +98,12 @@ def get_coords(detections):
     lane_disp = lane_centers/lane_count
     return object_, lane_disp, unoriented_lane, speedbump, signal, zebra
 
-def process(image_np):
+def load_image_into_numpy_array(path):
+    return np.array(Image.open(path))
+
+def process(image_path):
+    image_np = load_image_into_numpy_array(image_path)
+
     # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
     input_tensor = tf.convert_to_tensor(image_np)
     # The model expects a batch of images, so add an axis with `tf.newaxis`.
