@@ -2,18 +2,18 @@ import tensorflow as tf
 import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
-from object_detection.utils import label_map_util
+from object_detection.utils import label_map_util, visualization_utils
 import os
 from PIL import Image
 
 
 cone_thresh = 0.85
 box_thresh = 0.7
-lane_thresh = 0.95
+lane_thresh = 0.9
 bump_thresh = 0.8
 signal_thresh = 0.7
 zebra_thresh = 0.75
-
+thresh = 0.7
 
 PATH_TO_SAVED_MODEL = os.path.join(os.getcwd(), "inference_graph","saved_model")
 detect_fn = tf.saved_model.load(PATH_TO_SAVED_MODEL)
@@ -101,7 +101,7 @@ def get_coords(detections):
 def load_image_into_numpy_array(path):
     return np.array(Image.open(path))
 
-def process(image_path):
+def process(image_path, vis=False, pth=""):
     image_np = load_image_into_numpy_array(image_path)
 
     # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
@@ -122,6 +122,24 @@ def process(image_path):
     # detection_classes should be ints.
     detections['detection_classes'] = detections['detection_classes'].astype(np.int64)
 
+    if vis:
+        label_id_offset = 1 
+        impop = load_image_into_numpy_array(image_path)
+        visualization_utils.visualize_boxes_and_labels_on_image_array(impop,
+                detections['detection_boxes'],
+                (detections['detection_classes']).astype(int),
+                detections['detection_scores'],
+                category_index,
+                use_normalized_coordinates=True,
+                max_boxes_to_draw=200,
+                min_score_thresh=thresh,
+                agnostic_mode=False)
+        im = Image.fromarray(impop)
+        im.save(pth)
+    
     return get_coords(detections)
 
+if __name__ == "__main__":
+    for i in range(0,157):
+        print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677312976.089766\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
         
