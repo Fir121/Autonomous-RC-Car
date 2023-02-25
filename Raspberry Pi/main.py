@@ -20,12 +20,14 @@ if logging:
     tfile = os.path.join(dir_, "log.txt")
 
 i = 0
+if os.path.exists("test.jpg"):
+    os.remove("test.jpg")
 while True:
     try:
         img = picam2.capture_array()
-        cv2.imwrite("test.jpg", img)
         if os.path.exists("op.txt"):
             os.remove("op.txt")
+        cv2.imwrite("test.jpg", img)
         while True:
             if os.path.exists("op.txt"):
                 while True:
