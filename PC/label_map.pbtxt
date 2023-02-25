@@ -1,0 +1,39 @@
+item {
+    id: 1
+    name: 'Box'
+}
+
+item {
+    id: 2
+    name: 'SpeedBump'
+}
+
+item {
+    id: 3
+    name: 'TrackLine'
+}
+
+item {
+    id: 4
+    name: 'Traffic_S'
+}
+
+item {
+    id: 5
+    name: 'Traffic_X'
+}
+
+item {
+    id: 6
+    name: 'Zebra'
+}
+
+item {
+    id: 7
+    name: 'Traffic_L'
+}
+
+item {
+    id: 8
+    name: 'Cone'
+}
