@@ -44,6 +44,7 @@ while True:
         car.interpret(res)
         if logging and img is not None:
             with open(tfile,"a+") as f:
+                print("\n".join([str(i),str(res),"-----"]))
                 f.writelines([str(i),str(res),"-----"])
         i += 1
     except:
