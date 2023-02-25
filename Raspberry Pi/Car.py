@@ -52,6 +52,7 @@ class Car:
         elif amt > 0:
             self._servo_change(self.servo_controls["straight"]-((self.servo_controls["straight"]-self.servo_controls["right"])*(amt/100)))
         
+        print(amt)
         self.status["servo"] = amt
 
         return True
@@ -60,6 +61,7 @@ class Car:
         # RN will use a fixed speed, presumes esc_controls speed > idle
         if self.status["esc"] == 1:
             return
+        print("move called")
         self._esc_change(self.esc_controls["idle"]+0.5)  
         self.status["esc"] = 1
     
@@ -67,6 +69,7 @@ class Car:
         # assumes reverse is brake
         if self.status["esc"] == -1 or self.status["esc"] == 0 or self.status["esc"] is None:
             return
+        print("brake called")
         self._esc_change(self.esc_controls["reverse"])
         self.status["esc"] = -1
     
@@ -144,7 +147,9 @@ class Car:
             ECHO = ECHO_RIGHT
         else:
             return None
-        return ultrasonic.ultrasonic(TRIG,ECHO)
+        dist = ultrasonic.ultrasonic(TRIG,ECHO)
+        print(f"Sensor {side} is {dist}")
+        return dist
         
     def _swerve(self, side, disp):
         if side == "left":
@@ -156,6 +161,7 @@ class Car:
         else:
             return
 
+        print("swerve called with args: "+side+f"fact:{fact}, %:{perct_disp}")
         if perct_disp < 30:
             self.turn((fact*swerve_dist)//3)
         elif perct_disp < 50:

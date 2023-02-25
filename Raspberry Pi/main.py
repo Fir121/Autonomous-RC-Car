@@ -40,7 +40,11 @@ while True:
                 break
             else:
                 time.sleep(0.00001)
+        print(i)
         car.interpret(res)
+        if logging and img is not None:
+            with open(tfile,"a+") as f:
+                f.writelines([str(i),str(res),"-----"])
         i += 1
     except:
         car.end_car()

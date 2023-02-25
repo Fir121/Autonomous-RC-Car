@@ -13,8 +13,9 @@ remotepath = '/home/firas/Desktop/Autonomous-RC-Car/Raspberry Pi'
 i = 0
 t = time.time()
 os.makedirs(f"outputimages/{t}")
+
 while True:
-    print(i)
+    s = time.time()
     while True:
         try:
             sftp.stat(remotepath+"/test.jpg")
@@ -29,3 +30,4 @@ while True:
         f.write(str(op))
     sftp.remove(remotepath+"/test.jpg")
     sftp.put("op.txt", remotepath+"/op.txt", confirm=False)
+    print(time.time()-s)
