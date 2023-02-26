@@ -1,10 +1,11 @@
 # SOFTWARE CONSTANTS
-map_radius = 4.5 #m # very variant method heavily depends on starting location, possible fix would be to computerly calculate starting location
-swerve_dist = 30 # percent
-min_dist = 100 #cm for sensors
+map_radius = 4 # m # very variant method heavily depends on starting location, possible fix would be to computerly calculate starting location
+swerve_dist = 25 # percent
+min_dist = 100 # cm for sensors
 max_factor = 2.6 # multiply into swerve, ensure swerve_dist*max_factor<100
-acceptable_offset = 0.08 # percent/100 side to side allowed lane offset behaviour, must be <=0.5
+acceptable_offset = 0.075 # percent/100 side to side allowed lane offset behaviour, must be <=0.5
 logging = True
+swerve_sleep = 0.2
 
 # HARDWARE CONSTANTS
 cam_width = 640
@@ -17,7 +18,3 @@ TRIG_RIGHT = 10
 ECHO_RIGHT = 9
 TRIG_LEFT = 20
 ECHO_LEFT = 21
-
-
-
-

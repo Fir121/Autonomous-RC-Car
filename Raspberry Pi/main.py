@@ -42,10 +42,17 @@ while True:
                 time.sleep(0.00001)
         print(i)
         car.interpret(res)
+        time.sleep(0.2)
+        car.brake()
         if logging and img is not None:
             with open(tfile,"a+") as f:
                 print("\n".join([str(i),str(res),"-----"]))
-                f.writelines([str(i),str(res),"-----"])
+                f.writelines([str(i)+"\n",str(res)+"\n","-----\n"])
         i += 1
-    except:
+    except KeyboardInterrupt:
         car.end_car()
+        break
+    except Exception as e:
+        print(e)
+        car.end_car()
+        break

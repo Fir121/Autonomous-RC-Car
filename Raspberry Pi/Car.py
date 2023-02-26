@@ -3,7 +3,7 @@ from constants import *
 import math
 import ultrasonic
 import shape_operations
-
+import time
 pi = pigpio.pi()
 
 class Car:
@@ -104,35 +104,38 @@ class Car:
         zebra = controls[5]
 
         if lane_disp is None:
+            print("Lane not detected")
             self.brake()
         else:
-            if object_ is not None and shape_operations.overlap(object_["box"], 0.5):
+            if object_ is not None:
                 self.brake()
-                if self.sensor("center") < min_dist or self.sensor("left") < min_dist or self.sensor("right") < min_dist:
+                if self.sensor("center") < min_dist:
                     self.move()
                     if lane_disp > 0.5:
-                        self._swerve("left",1)
+                        self._swerve("left", 1)
+                        self._swerve("right",0.2)
                     elif lane_disp < 0.5:
                         self._swerve("right",0) # might need a time sleep here todo
+                        self._swerve("left",0.8)
+                    self.default_turning()
                     return
+                else:
+                    if object_["class_name"] != "Cone":
+                        if object_["ypos"] < lane_disp:
+                            lane_disp += (object_["box"][3]-object_["box"][1])//1.5
+                            if lane_disp > 1:
+                                lane_disp = 1
+                        elif object_["ypos"] > lane_disp:
+                            lane_disp -= (object_["box"][3]-object_["box"][1])//1.5
+                            if lane_disp < 0:
+                                lane_disp = 0
 
-            if object_ is not None and shape_operations.overlap(object_["box"], lane_disp):
-                if lane_disp > object_["box"][1]:
-                    lane_disp += object_["box"][3]-object_["box"][1]
-                    if lane_disp > 1:
-                        lane_disp = 1
-                elif lane_disp < object_["box"][3]:
-                    lane_disp -= object_["box"][3]-object_["box"][1]
-                    if lane_disp < 0:
-                        lane_disp = 0
-                        
             self.move()
             if lane_disp < 0.5-acceptable_offset:
                 self._swerve("right",lane_disp)
             elif lane_disp > 0.5+acceptable_offset:
                 self._swerve("left",lane_disp)
-            else:
-                self.default_turning()
+            self.default_turning()
     
     def sensor(self, side):
         TRIG = ECHO = 0
@@ -172,3 +175,4 @@ class Car:
             self.turn(fact*int(swerve_dist*max_factor))
         else:
             self.turn(fact*swerve_dist*2)
+        time.sleep(swerve_sleep)
