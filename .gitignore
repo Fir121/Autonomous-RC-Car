@@ -2,3 +2,5 @@ TempBin
 */outputimages
 op.txt
 test.jpg
+*/processed
+__pycache__/

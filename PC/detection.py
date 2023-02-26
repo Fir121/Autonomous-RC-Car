@@ -9,7 +9,7 @@ from PIL import Image
 
 cone_thresh = 0.85
 box_thresh = 0.7
-lane_thresh = 0.9
+lane_thresh = 0.8
 bump_thresh = 0.4
 signal_thresh = 0.7
 zebra_thresh = 0.75
@@ -43,8 +43,7 @@ def get_coords(detections):
         # should probaby select the object with the lower y value
 
         if class_id == 3 and scores[i] > lane_thresh:
-            '''
-            if boxes[i][2]-boxes[i][0] < boxes[i][3]-boxes[i][1]:
+            if 0.66*boxes[i][3]-boxes[i][1] > boxes[i][2]-boxes[i][0]:
                 unoriented_lane = {
                         "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                         "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
@@ -53,9 +52,8 @@ def get_coords(detections):
                         "score": scores[i]
                     }
             else:
-            '''
-            lane_centers += 1-(boxes[i][3]+boxes[i][1])/2
-            lane_count += 1
+                lane_centers += 1-(boxes[i][3]+boxes[i][1])/2
+                lane_count += 1
 
         elif class_id == 8 and scores[i] > cone_thresh:
             object_ = {
@@ -142,6 +140,6 @@ def process(image_path, vis=False, pth=""):
     return get_coords(detections)
 
 if __name__ == "__main__":
-    for i in range(0,7):
-        print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677326652.2744546\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
+    for i in range(0,20):
+        print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677332978.8461547\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
         
