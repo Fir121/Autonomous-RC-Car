@@ -3,7 +3,7 @@ from constants import *
 import math
 import ultrasonic
 import shape_operations
-
+import time
 pi = pigpio.pi()
 
 class Car:
@@ -92,7 +92,9 @@ class Car:
         self.status = None
     
     def default_turning(self):
-        self.turn((math.degrees(math.atan(W/map_radius))/max_steer)*100)
+        #map_radius = 1.8
+        #self.turn((math.degrees(math.atan(W/map_radius))/max_steer)*100)
+        self.turn(0)
 
     def interpret(self, controls):
         object_ = controls[0]
@@ -102,37 +104,40 @@ class Car:
         hump = controls[3]
         signal = controls[4]
         zebra = controls[5]
-
-        if lane_disp is None:
-            self.brake()
+        if unoriented_lane is not None:
+            print("unoriented")
+            self.move()
+            self._swerve("right",0)
+        elif lane_disp is None:
+            self.move()
+            self._swerve("left",0.75)
+        elif (hump is not None and lane_disp is None):
+            self.move()
+            self._swerve("left", 0.9)
         else:
-            if object_ is not None and shape_operations.overlap(object_["box"], 0.5):
+            if object_ is not None:
                 self.brake()
-                if self.sensor("center") < min_dist or self.sensor("left") < min_dist or self.sensor("right") < min_dist:
+                if self.sensor("center") < min_dist:
                     self.move()
                     if lane_disp > 0.5:
-                        self._swerve("left",1)
+                        self._swerve("left", 0.8)
                     elif lane_disp < 0.5:
-                        self._swerve("right",0) # might need a time sleep here todo
+                        self._swerve("right",0.2) # might need a time sleep here todo
+                    self.default_turning()
                     return
+                else:
+                    if object_["class_name"] == "Cone" and shape_operations.overlap(object_["box"],lane_disp):
+                        if object_["ypos"] < lane_disp:
+                            lane_disp += 0.1
+                        elif object_["ypos"] > lane_disp:
+                            lane_disp -= 0.1
 
-            if object_ is not None and shape_operations.overlap(object_["box"], lane_disp):
-                if lane_disp > object_["box"][1]:
-                    lane_disp += object_["box"][3]-object_["box"][1]
-                    if lane_disp > 1:
-                        lane_disp = 1
-                elif lane_disp < object_["box"][3]:
-                    lane_disp -= object_["box"][3]-object_["box"][1]
-                    if lane_disp < 0:
-                        lane_disp = 0
-                        
             self.move()
-            if lane_disp < 0.5-acceptable_offset:
+            if lane_disp < 0.5:
                 self._swerve("right",lane_disp)
-            elif lane_disp > 0.5+acceptable_offset:
+            elif lane_disp > 0.5:
                 self._swerve("left",lane_disp)
-            else:
-                self.default_turning()
+            self.default_turning()
     
     def sensor(self, side):
         TRIG = ECHO = 0
@@ -163,12 +168,11 @@ class Car:
 
         print("swerve called with args: "+side+f"fact:{fact}, %:{perct_disp}")
         if perct_disp < 30:
-            self.turn((fact*swerve_dist)//3)
-        elif perct_disp < 50:
             self.turn((fact*swerve_dist)//2)
-        elif perct_disp < 80:
+        elif perct_disp < 65:
+            self.turn((fact*swerve_dist)//1.2)
+        elif perct_disp < 90:
             self.turn(fact*swerve_dist)
-        elif perct_disp == 100: #special superswerve
-            self.turn(fact*int(swerve_dist*max_factor))
         else:
             self.turn(fact*swerve_dist*2)
+        time.sleep(swerve_sleep)
