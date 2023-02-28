@@ -28,6 +28,8 @@ while True:
         if os.path.exists("op.txt"):
             os.remove("op.txt")
         cv2.imwrite("test.jpg", img)
+        with open("FLAG", "w") as f:
+            f.write("Image Loaded")
         while True:
             if os.path.exists("op.txt"):
                 while True:
