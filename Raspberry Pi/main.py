@@ -4,6 +4,7 @@ from picamera2 import Picamera2
 from Car import Car
 from constants import *
 import os
+from Globals import *
 
 picam2 = Picamera2()
 camera_config = picam2.create_still_configuration(main={"size": (cam_width, cam_height)})
@@ -43,9 +44,17 @@ while True:
             else:
                 time.sleep(0.00001)
         print(i)
-        car.interpret(res)
-        car.brake()
-        time.sleep(1.5)
+        if OUTER_TRACK:
+            car.interpret_outer(res)
+            if SLEEP_BETWEEN:
+                time.sleep(0.2) 
+            if USE_BRAKES:
+                car.brake()
+        else:
+            car.interpret_inner(res)
+            if INNER_STOP_GO_BEHAVIOUR:
+                car.brake()
+                time.sleep(1.5)
         if logging and img is not None:
             with open(tfile,"a+") as f:
                 print("\n".join([str(i),str(res),"-----"]))
