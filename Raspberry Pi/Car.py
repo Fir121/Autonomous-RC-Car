@@ -112,6 +112,7 @@ class Car:
         if USE_INNER:
             if hump is not None:
                 HUMP_SEEN = True
+                print("HUMP SEEN IS SET")
             elif HUMP_SEEN and unoriented_lane is not None:
                 print("unoriented")
                 self.move()
@@ -143,7 +144,7 @@ class Car:
                     self.default_turning()
                     return
                 else:
-                    if object_["class_name"] != "Cone":
+                    if object_["class_name"] != "Cone": # assumes outer has no cones
                         if object_["ypos"] < lane_disp:
                             lane_disp += (object_["box"][3]-object_["box"][1])//1.5
                             if lane_disp > 1:
@@ -191,7 +192,7 @@ class Car:
                     self.default_turning()
                     return
                 else:
-                    if object_["class_name"] == "Cone" and shape_operations.overlap(object_["box"],lane_disp):
+                    if object_["class_name"] == "Cone" and shape_operations.overlap(object_["box"],lane_disp): # assumes inner has no boxes
                         if object_["ypos"] < lane_disp:
                             lane_disp += 0.1
                         elif object_["ypos"] > lane_disp:
@@ -258,12 +259,12 @@ class Car:
 
         print("swerve called with args: "+side+f"fact:{fact}, %:{perct_disp}")
         if perct_disp < 30:
-            self.turn((fact*swerve_dist)//2)
+            self.turn((fact*swerve_dist_inner)//2)
         elif perct_disp < 65:
-            self.turn((fact*swerve_dist)//1.2)
+            self.turn((fact*swerve_dist_inner)//1.2)
         elif perct_disp < 90:
-            self.turn(fact*swerve_dist)
+            self.turn(fact*swerve_dist_inner)
         else:
-            self.turn(fact*swerve_dist*2)
+            self.turn(fact*swerve_dist_inner*2)
         if SLEEP_WHILE_SWERVE:
-            time.sleep(swerve_sleep)
+            time.sleep(swerve_sleep_inner)

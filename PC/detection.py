@@ -9,7 +9,7 @@ from PIL import Image
 
 cone_thresh = 0.8
 box_thresh = 0.7
-lane_thresh = 0.8
+lane_thresh = 0.85
 bump_thresh = 0.5
 signal_thresh = 0.7
 zebra_thresh = 0.75
