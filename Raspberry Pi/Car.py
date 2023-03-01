@@ -118,10 +118,10 @@ class Car:
                 self.brake()
                 if self.sensor("center") < min_dist:
                     self.move()
-                    if lane_disp > 0.5:
+                    if lane_disp > object_["ypos"]:
                         self._swerve("left", 1)
                         self._swerve("right",0.2)
-                    elif lane_disp < 0.5:
+                    elif lane_disp < object_["ypos"]:
                         self._swerve("right",0) # might need a time sleep here todo
                         self._swerve("left",0.8)
                     self.default_turning()
