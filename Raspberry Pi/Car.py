@@ -40,7 +40,10 @@ class Car:
         # L <-> S <-> R
         # Function presumes that servo_controls R < S < L
         if abs(amt) > 100:
-            return False 
+            if amt > 0:
+                amt = 100
+            else:
+                amt = -100
 
         if amt == self.status["servo"]:
             return True
@@ -103,9 +106,13 @@ class Car:
         signal = controls[4]
         zebra = controls[5]
 
-        if lane_disp is None:
-            print("Lane not detected")
+        if "Traffic_X" in signal:
+            print("Signal detected")
             self.brake()
+        elif lane_disp is None:
+            print("Lane not detected")
+            self.move()
+            self.default_turning()
         else:
             if object_ is not None:
                 self.brake()

@@ -32,7 +32,7 @@ def get_coords(detections):
     unoriented_lane = None
     object_ = None
     speedbump = None
-    signal = None
+    signal = []
     zebra = None
 
     for i in range(min(max_boxes_to_draw, boxes.shape[0])):
@@ -82,7 +82,7 @@ def get_coords(detections):
                     "score": scores[i]
                 }
         elif (class_id == 4 or class_id == 5 or class_id == 7) and scores[i] > signal_thresh:
-            signal = category_index[class_id]["name"]
+            signal.append(category_index[class_id]["name"])
         elif class_id == 6 and scores[i] > zebra_thresh:
             zebra = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,

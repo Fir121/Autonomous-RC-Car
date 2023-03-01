@@ -18,7 +18,7 @@ while True:
     s = time.time()
     while True:
         try:
-            sftp.stat(remotepath+"/test.jpg")
+            sftp.stat(remotepath+"/FLAG")
             break
         except Exception as e:
             time.sleep(0.00001)
@@ -29,5 +29,6 @@ while True:
     with open("op.txt", "w") as f:
         f.write(str(op))
     sftp.remove(remotepath+"/test.jpg")
+    sftp.remove(remotepath+"/FLAG")
     sftp.put("op.txt", remotepath+"/op.txt", confirm=False)
     print(time.time()-s)
