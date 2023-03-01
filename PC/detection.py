@@ -34,6 +34,7 @@ def get_coords(detections):
     speedbump = None
     signal = None
     zebra = None
+    max_normal_ypos = 0
 
     for i in range(min(max_boxes_to_draw, boxes.shape[0])):
         class_id = int(detections['detection_classes'][i])
@@ -44,6 +45,8 @@ def get_coords(detections):
 
         if class_id == 3 and scores[i] > lane_thresh:
             if 0.66*boxes[i][3]-boxes[i][1] > boxes[i][2]-boxes[i][0]:
+                if unoriented_lane is not None and (1-(boxes[i][2]+boxes[i][0])/2) < unoriented_lane["ypos"]:
+                    continue
                 unoriented_lane = {
                         "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                         "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
@@ -52,6 +55,8 @@ def get_coords(detections):
                         "score": scores[i]
                     }
             else:
+                if (1-(boxes[i][2]+boxes[i][0])/2) > max_normal_ypos:
+                    max_normal_ypos = 1-(boxes[i][2]+boxes[i][0])/2 
                 lane_centers += 1-(boxes[i][3]+boxes[i][1])/2
                 lane_count += 1
 
@@ -92,7 +97,8 @@ def get_coords(detections):
                     "score": scores[i]
                 }
             
-
+    if unoriented_lane is not None and unoriented_lane["ypos"] < max_normal_ypos:
+        unoriented_lane = None
     if lane_count == 0:
         return object_, None, unoriented_lane, speedbump, signal, zebra
     lane_disp = lane_centers/lane_count
@@ -140,6 +146,6 @@ def process(image_path, vis=False, pth=""):
     return get_coords(detections)
 
 if __name__ == "__main__":
-    for i in range(0,20):
-        print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677332978.8461547\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
+    for i in range(423,439):
+        print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
         
