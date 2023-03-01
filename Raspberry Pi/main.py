@@ -42,7 +42,6 @@ while True:
                 break
             else:
                 time.sleep(0.00001)
-        print(i)
         car.interpret(res)
         time.sleep(0.2)
         car.brake()

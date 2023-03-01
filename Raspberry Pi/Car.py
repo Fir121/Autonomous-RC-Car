@@ -180,6 +180,7 @@ class Car:
             self.turn(fact*swerve_dist)
         elif perct_disp == 100: #special superswerve
             self.turn(fact*int(swerve_dist*max_factor))
+            time.sleep(swerve_sleep/10)
         else:
             self.turn(fact*swerve_dist*2)
         time.sleep(swerve_sleep)

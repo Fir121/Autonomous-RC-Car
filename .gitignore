@@ -1,6 +1,7 @@
 TempBin
 */outputimages
+*/oldoutputimages
 op.txt
 test.jpg
 */processed
-__pycache__/
+*.pyc
