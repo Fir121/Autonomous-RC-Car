@@ -13,7 +13,7 @@ lane_thresh = 0.9
 bump_thresh = 0.8
 signal_thresh = 0.35
 zebra_thresh = 0.75
-thresh = 0.5
+thresh = 0.35
 
 PATH_TO_SAVED_MODEL = os.path.join(os.getcwd(), "inference_graph","saved_model")
 detect_fn = tf.saved_model.load(PATH_TO_SAVED_MODEL)
@@ -140,6 +140,8 @@ def process(image_path, vis=False, pth=""):
     return get_coords(detections)
 
 if __name__ == "__main__":
-    for i in range(0,157):
-        print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677320903.3979456\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
-        
+    for i in range(1698,1893):
+        try:
+            print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\oldoutputimages\Wednesday\1677422375.6442368\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
+        except:
+            pass

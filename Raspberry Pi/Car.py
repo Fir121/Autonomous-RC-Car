@@ -109,6 +109,7 @@ class Car:
         if "BlueL" in signal and "GreenL" not in signal:
             print("Signal detected")
             self.brake()
+            self.default_turning()
         elif lane_disp is None:
             print("Lane not detected")
             self.move()
