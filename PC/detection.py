@@ -11,7 +11,7 @@ cone_thresh = 0.85
 box_thresh = 0.7
 lane_thresh = 0.9
 bump_thresh = 0.8
-signal_thresh = 0.7
+signal_thresh = 0.35
 zebra_thresh = 0.75
 thresh = 0.5
 
@@ -55,7 +55,7 @@ def get_coords(detections):
                 lane_centers += 1-(boxes[i][3]+boxes[i][1])/2
                 lane_count += 1
 
-        elif class_id == 8 and scores[i] > cone_thresh:
+        elif class_id == 2 and scores[i] > cone_thresh:
             object_ = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                     "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
@@ -73,7 +73,7 @@ def get_coords(detections):
                     "score": scores[i]
                 }
         
-        elif class_id == 2 and scores[i] > bump_thresh:
+        elif class_id == 7 and scores[i] > bump_thresh:
             speedbump = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                     "xpos": 1-(boxes[i][3]+boxes[i][1])/2,
@@ -81,9 +81,9 @@ def get_coords(detections):
                     "class_name": category_index[class_id]["name"],
                     "score": scores[i]
                 }
-        elif (class_id == 4 or class_id == 5 or class_id == 7) and scores[i] > signal_thresh:
+        elif (class_id == 5 or class_id == 6) and scores[i] > signal_thresh:
             signal.append(category_index[class_id]["name"])
-        elif class_id == 6 and scores[i] > zebra_thresh:
+        elif class_id == 4 and scores[i] > zebra_thresh:
             zebra = {
                     "ypos": 1-(boxes[i][2]+boxes[i][0])/2,
                     "xpos": 1-(boxes[i][3]+boxes[i][1])/2,

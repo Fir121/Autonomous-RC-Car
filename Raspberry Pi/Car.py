@@ -106,7 +106,7 @@ class Car:
         signal = controls[4]
         zebra = controls[5]
 
-        if "Traffic_X" in signal and "Traffic_L" not in signal:
+        if "BlueL" in signal and "GreenL" not in signal:
             print("Signal detected")
             self.brake()
         elif lane_disp is None:
