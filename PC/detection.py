@@ -140,8 +140,8 @@ def process(image_path, vis=False, pth=""):
     return get_coords(detections)
 
 if __name__ == "__main__":
-    for i in range(4,5):
+    for i in range(0,66):
         try:
-            print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677740276.3073153\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
+            print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677745162.9212718\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
         except:
             pass

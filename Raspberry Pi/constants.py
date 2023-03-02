@@ -1,8 +1,8 @@
 # SOFTWARE CONSTANTS
 map_radius = 4 # m # very variant method heavily depends on starting location, possible fix would be to computerly calculate starting location
-swerve_dist = 25 # percent
+swerve_dist = 27 # percent
 min_dist = 100 # cm for sensors
-max_factor = 2.6 # multiply into swerve, ensure swerve_dist*max_factor<100
+max_factor = 2.4 # multiply into swerve, ensure swerve_dist*max_factor<100
 acceptable_offset = 0.075 # percent/100 side to side allowed lane offset behaviour, must be <=0.5
 logging = True
 swerve_sleep = 0.2
