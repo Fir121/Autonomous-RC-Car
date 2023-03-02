@@ -119,21 +119,21 @@ class Car:
                 self.brake()
                 if self.sensor("center") < min_dist:
                     self.move()
-                    if lane_disp > object_["ypos"]:
+                    if lane_disp > object_["xpos"]:
                         self._swerve("left", 1)
                         self._swerve("right",0.2)
-                    elif lane_disp < object_["ypos"]:
+                    elif lane_disp < object_["xpos"]:
                         self._swerve("right",0) # might need a time sleep here todo
                         self._swerve("left",0.8)
                     self.default_turning()
                     return
                 else:
                     if object_["class_name"] != "Cone":
-                        if object_["ypos"] < lane_disp:
+                        if object_["xpos"] < lane_disp: # do ypos if needed
                             lane_disp += (object_["box"][3]-object_["box"][1])//1.5
                             if lane_disp > 1:
                                 lane_disp = 1
-                        elif object_["ypos"] > lane_disp:
+                        elif object_["xpos"] > lane_disp:
                             lane_disp -= (object_["box"][3]-object_["box"][1])//1.5
                             if lane_disp < 0:
                                 lane_disp = 0

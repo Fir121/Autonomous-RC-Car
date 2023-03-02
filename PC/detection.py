@@ -9,7 +9,7 @@ from PIL import Image
 
 cone_thresh = 0.85
 box_thresh = 0.7
-lane_thresh = 0.9
+lane_thresh = 0.95
 bump_thresh = 0.8
 signal_thresh = 0.35
 zebra_thresh = 0.75
@@ -140,8 +140,8 @@ def process(image_path, vis=False, pth=""):
     return get_coords(detections)
 
 if __name__ == "__main__":
-    for i in range(1698,1893):
+    for i in range(4,5):
         try:
-            print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\oldoutputimages\Wednesday\1677422375.6442368\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
+            print(i, process(rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\outputimages\1677740276.3073153\{i}-Base.jpg", True, rf"C:\Users\moham\OneDrive\Desktop\auto rc car\PC\processed\{i}-Base.jpg"))
         except:
             pass
